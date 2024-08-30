@@ -2,8 +2,8 @@
   "name": "nodeapi",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "type": "module",
+  "main": "index.cjs",
+  "type": "commonjs",
   "engines": {
     "node": ">=14.20.1"
   },
