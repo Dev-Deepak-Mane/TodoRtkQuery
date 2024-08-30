@@ -29,8 +29,8 @@ app.use(
 );
 
 // Using routes
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/task", taskRouter);
+app.use("/api/users", userRouter);
+app.use("/api/tasks", taskRouter);
 // app.get("/", (req, res) => {
 //   res.send("Nice working");
 // });
