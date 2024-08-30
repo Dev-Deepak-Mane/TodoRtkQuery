@@ -3,20 +3,20 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BASE_URL}/users`,
+    baseUrl: process.env.REACT_APP_BASE_URL,
     credentials: "include", // Necessary for cookie-based authentication
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
     getProfile: builder.query({
-      query: () => "/profile",
+      query: () => "/users/profile",
       providesTags: ["User"],
       refetchOnMountOrArgChange: true, // Ensure fresh data on mount or arg change
       keepUnusedDataFor: 0, // Do not keep data in the cache
     }),
     registerUser: builder.mutation({
       query: (userData) => ({
-        url: "/register",
+        url: "/users/register",
         method: "POST",
         body: userData,
       }),
@@ -24,7 +24,7 @@ export const userApi = createApi({
     }),
     loginUser: builder.mutation({
       query: (loginData) => ({
-        url: "/login",
+        url: "/users/login",
         method: "POST",
         body: loginData,
       }),
@@ -32,13 +32,13 @@ export const userApi = createApi({
     }),
     logoutUser: builder.mutation({
       query: () => ({
-        url: "/logout",
+        url: "/users/logout",
         method: "POST",
       }),
       invalidatesTags: ["User"], // Invalidate cache on logout
     }),
     getAllUsers: builder.query({
-      query: () => "/data",
+      query: () => "/users/data",
       providesTags: ["User"],
     }),
   }),

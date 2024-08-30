@@ -3,13 +3,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const taskApi = createApi({
   reducerPath: "taskApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BASE_URL}/tasks`, // Replace with your actual base URL
+    baseUrl: process.env.REACT_APP_BASE_URL, // Replace with your actual base URL
     credentials: "include", // Necessary for cookie-based authentication
   }),
   tagTypes: ["Task"],
   endpoints: (builder) => ({
     getMyTasks: builder.query({
-      query: () => "/",
+      query: () => "/tasks",
       providesTags: ["Task"],
       transformResponse: (response) => {
         // Reverse the order of the tasks
@@ -24,7 +24,7 @@ export const taskApi = createApi({
     }),
     addTask: builder.mutation({
       query: (newTask) => ({
-        url: "/",
+        url: "/tasks",
         method: "POST",
         body: newTask,
       }),
@@ -32,7 +32,7 @@ export const taskApi = createApi({
     }),
     updateTask: builder.mutation({
       query: ({ _id, ...updateddData }) => ({
-        url: `/${_id}`,
+        url: `/tasks/${_id}`,
         method: "PATCH",
         body: updateddData,
       }),
@@ -59,7 +59,7 @@ export const taskApi = createApi({
     }),
     editTask: builder.mutation({
       query: ({ _id, ...editedData }) => ({
-        url: `/${_id}`,
+        url: `/tasks/${_id}`,
         method: "PUT",
         body: editedData,
       }),
@@ -67,7 +67,7 @@ export const taskApi = createApi({
     }),
     deleteTask: builder.mutation({
       query: (id) => ({
-        url: `/${id}`,
+        url: `/tasks/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Task"],
