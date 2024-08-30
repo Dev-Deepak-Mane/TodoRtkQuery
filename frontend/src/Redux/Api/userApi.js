@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_BASE_URL,
+    baseUrl: "https://backend-todo-rtk-query.vercel.app/",
     credentials: "include", // Necessary for cookie-based authentication
   }),
   tagTypes: ["User"],
