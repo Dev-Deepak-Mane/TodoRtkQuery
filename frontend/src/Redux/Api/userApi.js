@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.Backend_Url}/users`,
+    baseUrl: `${process.env.REACT_APP_BASE_URL}/users`,
     credentials: "include", // Necessary for cookie-based authentication
   }),
   tagTypes: ["User"],
