@@ -28,6 +28,22 @@ export const taskApi = createApi({
         method: "POST",
         body: newTask,
       }),
+      async onQueryStarted(newTask, { dispatch, queryFulfilled }) {
+        // Optimistically update UI before the server response
+        const patchResult = dispatch(
+          taskApi.util.updateQueryData("getMyTasks", undefined, (draft) => {
+            draft.tasks.push(newTask);
+          })
+        );
+
+        try {
+          // Wait for the server response
+          await queryFulfilled;
+        } catch {
+          // Revert the UI update if the server request fails
+          patchResult.undo();
+        }
+      },
       invalidatesTags: ["Task"],
     }),
     updateTask: builder.mutation({
