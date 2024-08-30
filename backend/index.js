@@ -41,7 +41,11 @@ app.use("/api/users", userRouter);
 app.use("/api/tasks", taskRouter);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to todoApp");
+  try {
+    res.send("Welcome to todoApp");
+  } catch (error) {
+    console.log(error);
+  }
 });
 const MONGO_URL = process.env.MONGO_URL;
 if (!MONGO_URL) {
