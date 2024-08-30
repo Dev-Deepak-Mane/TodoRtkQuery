@@ -10,26 +10,33 @@ import mongoose from "mongoose";
 dotenv.config();
 
 const app = express();
+// Using Middlewares
+const PORT = process.env.port;
 
-// Environment Variables
-const PORT = process.env.PORT || 5000;
-const MONGO_URL = process.env.MONGO_URL;
-
-// CORS Middleware
 app.use(
   cors({
     origin: "https://todo-rtk-query-blush.vercel.app", // Your frontend URL
     credentials: true, // Allow credentials (cookies) to be sent
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
 );
-
-// Middleware
+// app.use(
+//   cors({
+//     origin: "https://todo-rtk-query-blush.vercel.app",
+//     credentials: true,
+//     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+//     allowedHeaders: "Content-Type, Authorization",
+//   })
+// );
 app.use(express.json());
 app.use(cookieParser());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
-// Routes
+// Using routes
 app.use("/api/users", userRouter);
 app.use("/api/tasks", taskRouter);
 
@@ -37,9 +44,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to todoApp");
 });
 
-// Database Connection and Server Start
 mongoose
-  .connect(MONGO_URL, {
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -47,12 +53,9 @@ mongoose
     console.log(`Database Connected with ${c.connection.host}`);
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
-  .catch((err) => {
-    console.error("Database connection failed:", err);
-    process.exit(1); // Exit process with failure
-  });
-
-// Error Middleware
+  .catch((err) => console.log(err));
+// Using Error Middleware
 app.use(errorMiddleware);
 
+// Export the Express app
 export default app;
