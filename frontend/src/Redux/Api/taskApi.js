@@ -29,10 +29,14 @@ export const taskApi = createApi({
         body: newTask,
       }),
       async onQueryStarted(newTask, { dispatch, queryFulfilled }) {
+        // Add a temporary id for the task if it's missing
+        const tempId = new Date().getTime().toString();
+        const taskWithTempId = { ...newTask, _id: tempId };
+
         // Optimistically update UI before the server response
         const patchResult = dispatch(
           taskApi.util.updateQueryData("getMyTasks", undefined, (draft) => {
-            draft.tasks.push(newTask);
+            draft.tasks.push(taskWithTempId);
           })
         );
 
