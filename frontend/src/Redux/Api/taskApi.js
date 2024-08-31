@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const taskApi = createApi({
   reducerPath: "taskApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.VITE_API_BASE_URL}`, // Replace with your actual base URL
+    baseUrl: `${import.meta.env.VITE_API_BASE_URL}`, // Replace with your actual base URL
     credentials: "include", // Necessary for cookie-based authentication
   }),
   tagTypes: ["Task"],
