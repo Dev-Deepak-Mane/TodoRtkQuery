@@ -45,15 +45,13 @@ const StickyNote = ({ task, index }) => {
   const handleDelete = async () => {
     try {
       await deleteTask(task._id);
+      toast(Toaster("success", "Task Deleted successfully!"));
     } catch (error) {
-      if (isError && error.data?.message) {
-        toast(Toaster("error", error.data.message));
-      }
+      toast(Toaster("error", error.data.message));
+      console.log(error);
     }
   };
-  if (isSuccess && data) {
-    toast(Toaster("success", "Task Deleted successfully!"));
-  }
+
   return (
     <Draggable draggableId={task._id} index={index}>
       {(provided) => (

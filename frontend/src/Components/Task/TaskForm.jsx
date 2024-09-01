@@ -12,6 +12,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useAddTaskMutation } from "../../Redux/Api/taskApi";
+import Toaster from "../UI/Toaster";
 // Import the addTask mutation
 
 const TaskForm = () => {
@@ -26,29 +27,15 @@ const TaskForm = () => {
       title: ref.current[0].value,
       description: ref.current[1].value,
     };
-    await addTask(payload);
+    try {
+      await addTask(payload);
+      toast(Toaster("success", "Task added successfully!"));
+      ref.current.reset();
+    } catch (error) {
+      toast(Toaster("error", error.data.message || "Error while adding"));
+      console.log(error);
+    }
   };
-
-  if (isError && error.data?.message) {
-    toast({
-      title: "Error",
-      description: error.data.message,
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-    });
-  }
-
-  if (isSuccess && data) {
-    toast({
-      title: "Success",
-      description: "Task added successfully!",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-    ref.current.reset(); // Clear the form after successful submission
-  }
 
   return (
     <Box maxW={["100%", "100%", "100%", "33.33%"]}>

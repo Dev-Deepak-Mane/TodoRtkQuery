@@ -14,6 +14,7 @@ import {
   Icon,
   Box,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useRef } from "react";
 
@@ -23,7 +24,8 @@ import Toaster from "../UI/Toaster";
 
 export const EditTaskModal = ({ task }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [editTask, { data, isError, isSuccess }] = useEditTaskMutation();
+  const [editTask, { data, isError, isSuccess, isLoading }] =
+    useEditTaskMutation();
   const formRef = useRef();
   const toast = useToast();
 
@@ -36,14 +38,10 @@ export const EditTaskModal = ({ task }) => {
     if (updatedTask.title.trim() && updatedTask.description.trim()) {
       try {
         await editTask(updatedTask);
-        if (isSuccess && data) {
-          console.log(data);
-          toast(Toaster("success", data?.message));
-        }
+        toast(Toaster("success", data?.message || "Task Updated successfully"));
       } catch (error) {
-        if (isError && error?.data?.message) {
-          toast(Toaster("error", error.data.message));
-        }
+        toast(Toaster("error", error.data.message));
+        console.log(error);
       }
       onClose();
     }
@@ -81,10 +79,22 @@ export const EditTaskModal = ({ task }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleEdit}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            {isLoading ? (
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size={"xl"}
+              />
+            ) : (
+              <>
+                <Button colorScheme="blue" mr={3} onClick={handleEdit}>
+                  Save
+                </Button>
+                <Button onClick={onClose}>Cancel</Button>
+              </>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
