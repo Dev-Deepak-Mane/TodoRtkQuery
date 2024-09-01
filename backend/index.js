@@ -24,7 +24,6 @@ app.use(
     origin: [
       "https://todo-rtk-query-blush.vercel.app",
       "http://localhost:5173",
-      "*",
     ],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
