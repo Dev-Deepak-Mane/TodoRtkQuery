@@ -10,10 +10,6 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { Draggable } from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
-// import { deleteTask } from "../features/tasks/taskSlice";
-
-// import { EditTaskModal } from "../components/EditTaskModal";
 import { format, parseISO } from "date-fns";
 import { EditTaskModal } from "./EditTaskModal";
 import { useDeleteTaskMutation } from "../../Redux/Api/taskApi";
