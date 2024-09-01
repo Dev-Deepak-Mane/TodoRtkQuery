@@ -21,7 +21,11 @@ app.use((req, res, next) => {
 });
 app.use(
   cors({
-    origin: ["https://todo-rtk-query-blush.vercel.app", "*"],
+    origin: [
+      "https://todo-rtk-query-blush.vercel.app",
+      "http://localhost:5173",
+      "*",
+    ],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     allowedHeaders: "Content-Type, Authorization",
